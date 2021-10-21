@@ -401,7 +401,14 @@ void FenetreTP::initialiser()
     };
 
     // partie 1: définir les normales
-    // GLfloat normales[3*4*6] = { ... };  // (0,+1,0), ... (0,0,-1), ... (+1,0,0), etc.
+    GLfloat normales[3*4*6] = {
+        0,1,0, 0,1,0, 0,1,0, 0,1,0, 
+        0,0,-1, 0,0,-1, 0,0,-1, 0,0,-1, 
+        1,0,0, 1,0,0, 1,0,0, 1,0,0, 
+        0,0,1, 0,0,1, 0,0,1, 0,0,1, 
+        -1,0,0, -1,0,0, -1,0,0, -1,0,0,
+        0,-1,0, 0,-1,0, 0,-1,0, 0,-1,0,
+    };  // (0,+1,0), ... (0,0,-1), ... (+1,0,0), etc.
 
     // partie 2: définir les coordonnées de texture
     // const GLfloat             // les différentes parties du monde  (voir figure 15)
