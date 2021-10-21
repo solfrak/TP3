@@ -93,7 +93,8 @@ void main( void )
     int j = 0;
     // vec4 coul = calculerReflexion( j, L, N, O );
     // ...
-    FragColor = 0.9*coul + vec4( 0.5, 0.5, 0.5, 1.0 ); // gris moche!
+    FragColor = coul;
+    //FragColor = 0.01*coul + vec4( 0.5, 0.5, 0.5, 1.0 ); // gris moche!
 
     // Pour « voir » les normales, on peut remplacer la couleur du fragment par la normale.
     // (Les composantes de la normale variant entre -1 et +1, il faut

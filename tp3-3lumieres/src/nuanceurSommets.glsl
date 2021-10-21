@@ -98,22 +98,15 @@ void main( void )
     // calcul de la composante ambiante du modèle
     vec4 coul = FrontMaterial.emission + FrontMaterial.ambient * LightModel.ambient;
 
-    for(int i =0; i < 3; i++)
-    {
-        coul += FrontMaterial.ambient * LightSource.ambient[i];
-    }
-    vec3 pos = vec3(matrVisu * matrModel * Vertex).xyz;
-    vec3 normale = matrNormale * Normal;
-    vec3 lumiDir = (matrVisu * LightSource.position[0] / LightSource.position[0].w).xyz - pos;
-    vec3 obsVec = (-pos);
+    vec3 N = normalize((matrNormale * Normal));
+    vec3 O = normalize(-(vec3(matrVisu * matrModel * Vertex)));
 
-    vec3 L = normalize(lumiDir);
-    vec3 N = normalize(normale);
-    vec3 O = normalize(obsVec);
+    vec3 L = normalize(LightSource.position[0].xyz);
+    coul += calculerReflexion(0, L, N, O);
 
-    // couleur du sommet
-    int j = 0;
-    coul += calculerReflexion( j, L, N, O );
-
+    L = normalize(LightSource.position[1].xyz);
+    coul += calculerReflexion(1, L, N, O);
+    L = normalize(LightSource.position[2].xyz);
+    coul += calculerReflexion(2, L, N, O);
     AttribsOut.couleur = clamp( coul, 0.0, 1.0 );
 }
