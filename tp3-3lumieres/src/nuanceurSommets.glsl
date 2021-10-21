@@ -94,12 +94,26 @@ void main( void )
     // appliquer la transformation standard du sommet (P * V * M * sommet)
     gl_Position = matrProj * matrVisu * matrModel * Vertex;
 
+
     // calcul de la composante ambiante du modèle
     vec4 coul = FrontMaterial.emission + FrontMaterial.ambient * LightModel.ambient;
 
+    for(int i =0; i < 3; i++)
+    {
+        coul += FrontMaterial.ambient * LightSource.ambient[i];
+    }
+    vec3 pos = vec3(matrVisu * matrModel * Vertex).xyz;
+    vec3 normale = matrNormale * Normal;
+    vec3 lumiDir = (matrVisu * LightSource.position[0] / LightSource.position[0].w).xyz - pos;
+    vec3 obsVec = (-pos);
+
+    vec3 L = normalize(lumiDir);
+    vec3 N = normalize(normale);
+    vec3 O = normalize(obsVec);
+
     // couleur du sommet
     int j = 0;
-    // ... = calculerReflexion( j, L, N, O );
+    coul += calculerReflexion( j, L, N, O );
 
     AttribsOut.couleur = clamp( coul, 0.0, 1.0 );
 }
