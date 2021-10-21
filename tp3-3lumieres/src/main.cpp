@@ -511,6 +511,7 @@ void afficherModele()
             // afficher le cube
             glUniformMatrix4fv( locmatrModel, 1, GL_FALSE, matrModel );
             // (partie 1: ne pas oublier de calculer et donner une matrice pour les transformations des normales)
+            glUniformMatrix3fv(locmatrNormale, 1, GL_TRUE, glm::value_ptr(glm::inverse(glm::mat3(matrVisu.getMatr() * matrModel.getMatr()))));
             glBindVertexArray( vao[0] );
             if ( Etat::utiliseTess )
             {
