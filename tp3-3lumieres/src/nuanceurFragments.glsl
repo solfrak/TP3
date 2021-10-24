@@ -95,16 +95,22 @@ vec4 calculerReflexion( in int j, in vec3 L, in vec3 N, in vec3 O ) // pour la l
 void main( void )
 {
     // ...
-    vec3 N = normalize(myVecIn.normVec);
-    vec3 O = normalize(myVecIn.obsVec);
+    
 
     vec4 coul = AttribsIn.couleur; // la composante ambiante déjà calculée (dans nuanceur de sommets) 
-    int j = 0;
-    for(int i = 0; i < 3; i++)
+    
+    //illumination phong
+    if(typeIllumination == 1)
     {
-        vec3 L = normalize(myVecIn.lumiDir[i]);
-        coul += calculerReflexion(i, L, N, O);
-        //coul += FrontMaterial.ambient + LightSource.ambient[i];
+        vec3 N = normalize(myVecIn.normVec);
+        vec3 O = normalize(myVecIn.obsVec);
+        
+        for(int i = 0; i < 3; i++)
+        {
+            vec3 L = normalize(myVecIn.lumiDir[i]);
+            coul += calculerReflexion(i, L, N, O);
+            //coul += FrontMaterial.ambient + LightSource.ambient[i];
+        }
     }
 
     FragColor = coul;
@@ -113,5 +119,5 @@ void main( void )
     // Pour « voir » les normales, on peut remplacer la couleur du fragment par la normale.
     // (Les composantes de la normale variant entre -1 et +1, il faut
     // toutefois les convertir en une couleur entre 0 et +1 en faisant (N+1)/2.)
-    if ( afficheNormales ) FragColor = clamp( vec4( (N+1)/2, AttribsIn.couleur.a ), 0.0, 1.0 );
+    //if ( afficheNormales ) FragColor = clamp( vec4( (N+1)/2, AttribsIn.couleur.a ), 0.0, 1.0 );
 }

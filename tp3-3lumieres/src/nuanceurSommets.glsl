@@ -101,7 +101,8 @@ void main( void )
     gl_Position = matrProj * matrVisu * matrModel * Vertex;
 
     vec3 pos = vec3( matrVisu * matrModel * Vertex );
-
+    vec3 normVec = matrNormale * Normal;
+    vec3 obsVec = (-pos);
     // calcul de la composante ambiante du modèle
     vec4 coul = FrontMaterial.emission + FrontMaterial.ambient * LightModel.ambient;
     
@@ -110,8 +111,21 @@ void main( void )
         myVecOut.lumiDir[i] = (matrVisu * LightSource.position[i]).xyz - pos;
     }
 
+    //illumination Gouraud
+    if(typeIllumination == 0)
+    {
+        vec3 N = normalize(normVec);
+        vec3 O = normalize(obsVec);
+
+        for(int i = 0; i < 3; i++)
+        {
+            vec3 L = normalize(myVecOut.lumiDir[i]);
+            coul += calculerReflexion(i, L, N, O);
+        }
+    }
+    
+
     AttribsOut.couleur = clamp( coul, 0.0, 1.0 );
     myVecOut.normVec = matrNormale * Normal;
     myVecOut.obsVec = (-pos);
-
 }
