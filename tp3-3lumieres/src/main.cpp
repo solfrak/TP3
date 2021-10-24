@@ -532,20 +532,26 @@ void afficherModele()
             matrModel.Scale( 0.25, 0.25, 0.25 );
             matrModel.Translate( 0.0, -1.5, 0.0 );
             glUniformMatrix4fv( locmatrModel, 1, GL_FALSE, matrModel );
+            glUniformMatrix3fv(locmatrNormale, 1, GL_TRUE, glm::value_ptr(glm::inverse(glm::mat3(matrVisu.getMatr() * matrModel.getMatr()))));
+
             theiere->afficher();
             break;
         case 3:
             matrModel.Rotate( -90, 1.0, 0.0, 0.0 );
             glUniformMatrix4fv( locmatrModel, 1, GL_FALSE, matrModel );
+            glUniformMatrix3fv(locmatrNormale, 1, GL_TRUE, glm::value_ptr(glm::inverse(glm::mat3(matrVisu.getMatr() * matrModel.getMatr()))));
+
             sphere->afficher();
             break;
         case 4:
             glUniformMatrix4fv( locmatrModel, 1, GL_FALSE, matrModel );
+            glUniformMatrix3fv(locmatrNormale, 1, GL_TRUE, glm::value_ptr(glm::inverse(glm::mat3(matrVisu.getMatr() * matrModel.getMatr()))));
             tore->afficher();
             break;
         case 5:
             matrModel.Translate( 0.0, 0.0, -1.5 );
             glUniformMatrix4fv( locmatrModel, 1, GL_FALSE, matrModel );
+            glUniformMatrix3fv(locmatrNormale, 1, GL_TRUE, glm::value_ptr(glm::inverse(glm::mat3(matrVisu.getMatr() * matrModel.getMatr()))));
             cylindre->afficher();
             break;
         }

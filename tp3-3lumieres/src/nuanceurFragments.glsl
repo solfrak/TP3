@@ -55,7 +55,14 @@ in Attribs {
     vec4 couleur;
 } AttribsIn;
 
+in myVec {
+    vec3 normVec, obsVec;
+    vec3 lumiDir[3];
+}  myVecIn;
+
 out vec4 FragColor;
+
+
 
 float calculerSpot( in vec3 D, in vec3 L, in vec3 N )
 {
@@ -88,16 +95,23 @@ vec4 calculerReflexion( in int j, in vec3 L, in vec3 N, in vec3 O ) // pour la l
 void main( void )
 {
     // ...
-    vec4 coul = AttribsIn.couleur; // la composante ambiante déjà calculée (dans nuanceur de sommets)
+    vec3 N = normalize(myVecIn.normVec);
+    vec3 O = normalize(myVecIn.obsVec);
 
+    vec4 coul = AttribsIn.couleur; // la composante ambiante déjà calculée (dans nuanceur de sommets) 
     int j = 0;
-    // vec4 coul = calculerReflexion( j, L, N, O );
-    // ...
+    for(int i = 0; i < 3; i++)
+    {
+        vec3 L = normalize(myVecIn.lumiDir[i]);
+        coul += calculerReflexion(i, L, N, O);
+        //coul += FrontMaterial.ambient + LightSource.ambient[i];
+    }
+
     FragColor = coul;
     //FragColor = 0.01*coul + vec4( 0.5, 0.5, 0.5, 1.0 ); // gris moche!
 
     // Pour « voir » les normales, on peut remplacer la couleur du fragment par la normale.
     // (Les composantes de la normale variant entre -1 et +1, il faut
     // toutefois les convertir en une couleur entre 0 et +1 en faisant (N+1)/2.)
-    //if ( afficheNormales ) FragColor = clamp( vec4( (N+1)/2, AttribsIn.couleur.a ), 0.0, 1.0 );
+    if ( afficheNormales ) FragColor = clamp( vec4( (N+1)/2, AttribsIn.couleur.a ), 0.0, 1.0 );
 }

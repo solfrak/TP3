@@ -61,6 +61,12 @@ out Attribs {
     vec4 couleur;
 } AttribsOut;
 
+out myVec {
+    vec3 normVec, obsVec;
+    vec3 lumiDir[3];
+}  myVecOut;
+
+
 float calculerSpot( in vec3 D, in vec3 L, in vec3 N )
 {
     float spotFacteur = 0.0;
@@ -94,19 +100,18 @@ void main( void )
     // appliquer la transformation standard du sommet (P * V * M * sommet)
     gl_Position = matrProj * matrVisu * matrModel * Vertex;
 
+    vec3 pos = vec3( matrVisu * matrModel * Vertex );
 
     // calcul de la composante ambiante du modèle
     vec4 coul = FrontMaterial.emission + FrontMaterial.ambient * LightModel.ambient;
+    
+    for(int i =0; i < 3; i++)
+    {
+        myVecOut.lumiDir[i] = (matrVisu * LightSource.position[i]).xyz - pos;
+    }
 
-    vec3 N = normalize((matrNormale * Normal));
-    vec3 O = normalize(-(vec3(matrVisu * matrModel * Vertex)));
-
-    vec3 L = normalize(LightSource.position[0].xyz);
-    coul += calculerReflexion(0, L, N, O);
-
-    L = normalize(LightSource.position[1].xyz);
-    coul += calculerReflexion(1, L, N, O);
-    L = normalize(LightSource.position[2].xyz);
-    coul += calculerReflexion(2, L, N, O);
     AttribsOut.couleur = clamp( coul, 0.0, 1.0 );
+    myVecOut.normVec = matrNormale * Normal;
+    myVecOut.obsVec = (-pos);
+
 }
