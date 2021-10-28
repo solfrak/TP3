@@ -53,6 +53,7 @@ uniform sampler2D laTextureNorm;
 
 in Attribs {
     vec4 couleur;
+    vec2 textureCoord;
 } AttribsIn;
 
 in myVec {
@@ -97,8 +98,13 @@ void main( void )
     // ...
     
 
-    vec4 coul = AttribsIn.couleur; // la composante ambiante déjà calculée (dans nuanceur de sommets) 
-    
+    vec4 coul = AttribsIn.couleur; // la composante ambiante déjà calculée (dans nuanceur de sommets)
+    vec4 couleurTexture = texture(laTextureCoul, AttribsIn.textureCoord);
+    if(length(couleurTexture.rgb) < 0.5 && iTexCoul > 0)
+    {
+        discard;
+    }
+    coul += 0.5 * couleurTexture;
     //illumination phong
     if(typeIllumination == 1)
     {
@@ -112,7 +118,7 @@ void main( void )
             //coul += FrontMaterial.ambient + LightSource.ambient[i];
         }
     }
-
+    
     FragColor = coul;
     //FragColor = 0.01*coul + vec4( 0.5, 0.5, 0.5, 1.0 ); // gris moche!
 

@@ -59,6 +59,7 @@ layout(location=8) in vec4 TexCoord;
 
 out Attribs {
     vec4 couleur;
+    vec2 textureCoord;
 } AttribsOut;
 
 out myVec {
@@ -105,7 +106,6 @@ void main( void )
     vec3 obsVec = (-pos);
     // calcul de la composante ambiante du modèle
     vec4 coul = FrontMaterial.emission + FrontMaterial.ambient * LightModel.ambient;
-    
     for(int i =0; i < 3; i++)
     {
         myVecOut.lumiDir[i] = (matrVisu * LightSource.position[i]).xyz - pos;
@@ -123,8 +123,9 @@ void main( void )
             coul += calculerReflexion(i, L, N, O);
         }
     }
-    
-
+    vec2 text = TexCoord.st;
+    text.s += tempsGlissement;
+    AttribsOut.textureCoord = text.st;
     AttribsOut.couleur = clamp( coul, 0.0, 1.0 );
     myVecOut.normVec = matrNormale * Normal;
     myVecOut.obsVec = (-pos);
