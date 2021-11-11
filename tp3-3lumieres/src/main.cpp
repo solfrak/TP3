@@ -1,7 +1,6 @@
 // Prénoms, noms et matricule des membres de l'équipe:
-// - Prénom1 NOM1 (matricule1)
-// - Prénom2 NOM2 (matricule2)
-#pragma message (": *************** Identifiez les membres de l'équipe dans le fichier 'main.cpp' et commentez cette ligne. ***************")
+// - Samuel Laporte (2050481)
+// - Anthony Depachtere (2004221)
 
 #if defined(_WIN32) || defined(WIN32)
 #pragma warning ( disable : 4244 4305 )
@@ -430,12 +429,11 @@ void FenetreTP::initialiser()
      };  // les coordonnées de texture pour la Terre (voir figure 15)
     GLfloat texcoordsAutre[2*4*6] = { 
         0,1, 1,1, 0,0, 1,0,
-        1,1, 1,0, 0,1, 1,1,
-        1,1, 1,0, 0,1, 1,1,
-        1,1, 1,0, 0,1, 1,1,
-        1,1, 1,0, 0,1, 1,1,
-        1,1, 1,0, 0,1, 1,1,
-
+        0,0, 1,0, 0,1, 1,1,
+        0,0, 1,0, 0,1, 1,1,
+        0,0, 1,0, 0,1, 1,1,
+        0,0, 1,0, 0,1, 1,1,
+        0,0, 1,0, 0,1, 1,1,
      };  // (0,0), (+1,0), etc.
 
     // allouer les objets OpenGL
@@ -526,11 +524,11 @@ void afficherModele()
         // mise à l'échelle
         matrModel.Scale( 5.0, 5.0, 5.0 );
 
-        glPatchParameteri( GL_PATCH_VERTICES, 4 );
         switch ( Etat::modele )
         {
         default:
         case 1:
+            glPatchParameteri( GL_PATCH_VERTICES, 4 );
             // afficher le cube
             glUniformMatrix4fv( locmatrModel, 1, GL_FALSE, matrModel );
             // (partie 1: ne pas oublier de calculer et donner une matrice pour les transformations des normales)
@@ -547,6 +545,12 @@ void afficherModele()
             if ( Etat::utiliseTess )
             {
                 // partie 3a: afficher le cube avec des GL_PATCHES
+                glDrawArrays( GL_PATCHES,  0, 4 );
+                glDrawArrays( GL_PATCHES,  4, 4 );
+                glDrawArrays( GL_PATCHES,  8, 4 );
+                glDrawArrays( GL_PATCHES, 12, 4 );
+                glDrawArrays( GL_PATCHES, 16, 4 );
+                glDrawArrays( GL_PATCHES, 20, 4 );
             }
             else
             {

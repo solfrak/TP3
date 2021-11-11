@@ -95,11 +95,12 @@ vec4 calculerReflexion( in int j, in vec3 L, in vec3 N, in vec3 O ) // pour la l
 
 void main( void )
 {
-    // ...
-    
-
     vec4 coul = AttribsIn.couleur; // la composante ambiante déjà calculée (dans nuanceur de sommets)
     vec4 couleurTexture = texture(laTextureCoul, AttribsIn.textureCoord);
+
+    vec3 normTexture = texture(laTextureNorm, AttribsIn.textureCoord).rgb;
+    vec3 dN = normalize(( normTexture - 0.5 ) * 2.0 );
+
     if(length(couleurTexture.rgb) < 0.5 && iTexCoul > 0)
     {
         discard;
@@ -109,6 +110,9 @@ void main( void )
     if(typeIllumination == 1)
     {
         vec3 N = normalize(myVecIn.normVec);
+    	if( iTexNorm != 0 ) {
+		    N = normalize(N + dN);	
+	    }
         vec3 O = normalize(myVecIn.obsVec);
         
         for(int i = 0; i < 3; i++)

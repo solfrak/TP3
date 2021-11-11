@@ -123,9 +123,9 @@ void main( void )
             coul += calculerReflexion(i, L, N, O);
         }
     }
-    vec2 text = TexCoord.st;
-    text.s += tempsGlissement;
-    AttribsOut.textureCoord = text.st;
+    vec2 tex = TexCoord.st;
+    tex.s -= tempsGlissement;
+    AttribsOut.textureCoord = tex.st;
     AttribsOut.couleur = clamp( coul, 0.0, 1.0 );
     myVecOut.normVec = matrNormale * Normal;
     myVecOut.obsVec = (-pos);
