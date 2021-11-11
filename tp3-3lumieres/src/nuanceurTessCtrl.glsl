@@ -39,7 +39,6 @@ void main()
 
     }
 
-    // copier les autres attributs vers la sortie
     AttribsOut[gl_InvocationID].couleur = AttribsIn[gl_InvocationID].couleur;
     AttribsOut[gl_InvocationID].textureCoord = AttribsIn[gl_InvocationID].textureCoord;
 

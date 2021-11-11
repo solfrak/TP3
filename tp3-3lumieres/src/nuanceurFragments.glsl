@@ -34,15 +34,15 @@ layout (std140) uniform LightModelParameters
 
 layout (std140) uniform varsUnif
 {
-    // partie 1: illumination
+    // Illumination
     int typeIllumination;     // 0:Gouraud, 1:Phong
     bool utiliseBlinn;        // indique si on veut utiliser modèle spéculaire de Blinn ou Phong
     bool utiliseDirect;       // indique si on utilise un spot style Direct3D ou OpenGL
     bool afficheNormales;     // indique si on utilise les normales comme couleurs (utile pour le débogage)
-    // partie 2: texture
+    // Texture
     float tempsGlissement;    // temps de glissement
     int iTexCoul;             // numéro de la texture de couleurs appliquée
-    // partie 3b: texture
+    // Texture
     int iTexNorm;             // numéro de la texture de normales appliquée
 };
 
@@ -119,15 +119,8 @@ void main( void )
         {
             vec3 L = normalize(myVecIn.lumiDir[i]);
             coul += calculerReflexion(i, L, N, O);
-            //coul += FrontMaterial.ambient + LightSource.ambient[i];
         }
     }
     
     FragColor = coul;
-    //FragColor = 0.01*coul + vec4( 0.5, 0.5, 0.5, 1.0 ); // gris moche!
-
-    // Pour « voir » les normales, on peut remplacer la couleur du fragment par la normale.
-    // (Les composantes de la normale variant entre -1 et +1, il faut
-    // toutefois les convertir en une couleur entre 0 et +1 en faisant (N+1)/2.)
-    //if ( afficheNormales ) FragColor = clamp( vec4( (N+1)/2, AttribsIn.couleur.a ), 0.0, 1.0 );
 }

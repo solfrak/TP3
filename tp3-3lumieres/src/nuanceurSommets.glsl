@@ -34,15 +34,15 @@ layout (std140) uniform LightModelParameters
 
 layout (std140) uniform varsUnif
 {
-    // partie 1: illumination
+    // Illumination
     int typeIllumination;     // 0:Gouraud, 1:Phong
     bool utiliseBlinn;        // indique si on veut utiliser modèle spéculaire de Blinn ou Phong
     bool utiliseDirect;       // indique si on utilise un spot style Direct3D ou OpenGL
     bool afficheNormales;     // indique si on utilise les normales comme couleurs (utile pour le débogage)
-    // partie 2: texture
+    // Texture
     float tempsGlissement;    // temps de glissement
     int iTexCoul;             // numéro de la texture de couleurs appliquée
-    // partie 3b: texture
+    // Texture
     int iTexNorm;             // numéro de la texture de normales appliquée
 };
 
@@ -111,7 +111,7 @@ void main( void )
         myVecOut.lumiDir[i] = (matrVisu * LightSource.position[i]).xyz - pos;
     }
 
-    //illumination Gouraud
+    // illumination Gouraud
     if(typeIllumination == 0)
     {
         vec3 N = normalize(normVec);

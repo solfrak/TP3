@@ -2,7 +2,7 @@
 #define __PIPELINE_H__
 
 // variables pour l'utilisation des nuanceurs
-GLuint prog;      // votre programme de nuanceurs
+GLuint prog; // votre programme de nuanceurs
 GLint locVertex = -1;
 GLint locNormal = -1;
 GLint locTexCoord = -1;
@@ -19,7 +19,7 @@ GLuint indLightSource;
 GLuint indFrontMaterial;
 GLuint indLightModel;
 GLuint indvarsUnif;
-GLuint progBase;  // le programme de nuanceurs de base
+GLuint progBase; // le programme de nuanceurs de base
 GLint locVertexBase = -1;
 GLint locColorBase = -1;
 GLint locmatrModelBase = -1;
